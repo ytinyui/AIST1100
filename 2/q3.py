@@ -5,7 +5,7 @@ import random
 def random_grid(m, n, unique=False):
     if unique == True and m * n > 52:
         print("The grid is too big for having unique items!")
-        return None
+        return
 
     result = []
     occur = []
@@ -26,42 +26,63 @@ def random_grid(m, n, unique=False):
 
 def print_grid(grid):
     for i in range(len(grid)):
-        if i == 0:
-            print("[", end="")
-        else:
-            print(" ", end="")
-        print("[", end="")
-        for j in range(len(grid[i])):
+        print('[[' if i == 0 else ' [', end='')
+        for j in range(len(grid[0])):
             print("\'" + grid[i][j] + "\'", end="")
-            if j < len(grid[i]) - 1:
-                print(", ", end="")
-        print("]", end="")
-        if i == len(grid) - 1:
-            print("]")
-        else:
-            print(",")
+            print(", " if j < len(grid[i]) - 1 else '', end='')
+        print(']]' if i == len(grid) - 1 else '],')
 
 
 def sorted_grid(grid, row_wise=True):
-    elements = []
+    l = []
     result = []
     for i in range(len(grid)):
         for j in range(len(grid[i])):
-            elements.append(len(grid[i][j]))
-    elements = sorted(elements)
+            l.append(grid[i][j])
+    l.sort(key=lambda v: (v.lower(), v[0].isupper()))
 
-    if row_wise == False:
-        tmp = i
-        i = j
-        j = tmp
+    count = 0
     for i in range(len(grid)):
         result.append([])
-        for j in range(len(grid[i])):
-            result[i].append(len(grid[i][j]))
+        for j in range(len(grid[0])):
+            result[i].append(l[count])
+            count += 1
+
+    if not row_wise:
+        result = [list(x) for x in zip(*result)]
     return result
 
 
-# grid = [['p', 'O', 'v', 'U'], ['f', 'V', 'Y', 'k'], ['F', 'b', 'U', 'k']]
-# print_grid(grid)
-# print(random_grid(7, 7, True))
-grid = [['W', 'I', 'I', 't'], ['e', 'q', 'A', 'f'], ['f', 'i', 'y', 'e']]
+def save(grid, txt: str):
+    f = open(txt, 'w')
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            f.write(grid[i][j])
+            f.write('\n') if j == len(grid[0]) - 1 else f.write(' ')
+
+
+def restore(txt: str):
+    grid = [[]]
+    i = 0
+    with open(txt, 'r') as f:
+        x = f.readline(1)
+        while x != '':
+            if x == '\n':
+                i += 1
+                grid.append([])
+            elif x != ' ':
+                grid[i].append(x)
+            x = f.readline(1)
+    grid.pop()
+    return grid
+
+
+if __name__ == '__main__':
+    A = [['A', 'f', 'q'],
+         ['e', 'i', 't'],
+         ['e', 'I', 'W'],
+         ['f', 'I', 'y']]
+    # save(sorted_grid(random_grid(3, 4, True), False), 'test1.txt')
+    # print_grid(sorted_grid(restore('test.txt')))
+    # print(restore('test.txt'))
+    # TODO: double check all functions
