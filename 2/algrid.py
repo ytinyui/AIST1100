@@ -82,7 +82,5 @@ if __name__ == '__main__':
          ['e', 'i', 't'],
          ['e', 'I', 'W'],
          ['f', 'I', 'y']]
-    # save(sorted_grid(random_grid(3, 4, True), False), 'test1.txt')
-    # print_grid(sorted_grid(restore('test.txt')))
-    # print(restore('test.txt'))
-    # TODO: double check all functions
+    # save(sorted_grid(random_grid(6, 7, True), False), 'test1.txt')
+    print_grid(restore('test1.txt'))
