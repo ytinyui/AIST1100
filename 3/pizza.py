@@ -9,7 +9,6 @@ class Pizza:
 
     def __init__(self, flavor: str, custom_ingreds: list):
         self.flavor = flavor
-        # A list of integers
         self.ingredients = custom_ingreds if flavor == "Custom" else Pizza.flavors[
             flavor]
 
@@ -56,7 +55,7 @@ class PizzaOrder:
             print(re.sub(r"[{}']", '', str(Pizza.ingredients)))
             ingreds = [
                 *map(int, input("Select id's of ingredients: ").split(" "))]
-        return [flavors[flavor-1], ingreds]
+        return flavors[flavor-1], ingreds
 
 
 if __name__ == '__main__':
